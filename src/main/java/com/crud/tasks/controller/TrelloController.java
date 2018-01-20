@@ -21,8 +21,9 @@ import java.util.List;
 
             List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
 
-            trelloBoards.forEach(trelloBoardDto -> System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName()));
-
+            trelloBoards.stream()
+                    .filter(trelloBoardDto -> trelloBoardDto.getId()!=""&&trelloBoardDto.getName().contains("kodilla"))
+                    .forEach(trelloBoardDto -> System.out.println(trelloBoardDto.getId()+ " " + trelloBoardDto.getName()));
         }
     }
 
