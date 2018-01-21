@@ -21,9 +21,12 @@ import java.util.List;
 
         @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
 
-        public void getTrelloBoards() {
+        public List<TrelloBoardDto> getTrelloBoards() {
+            return trelloClient.getTrelloBoards();
 
-            List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
+
+
+          /*  List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
             trelloBoards.stream()
                     .filter(trelloBoardDto -> !trelloBoardDto.getId().isEmpty() && trelloBoardDto.getName().contains("kodilla"))
                     .forEach(trelloBoardDto -> {
@@ -34,7 +37,7 @@ import java.util.List;
 
                         trelloBoardDto.getLists().forEach(trelloList ->
                                 System.out.println(trelloList.getName() + " - " + trelloList.getId() + " - " + trelloList.isClosed()));
-                    });
+                    });*/
         }
 
 
