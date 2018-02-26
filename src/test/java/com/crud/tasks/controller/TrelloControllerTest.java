@@ -45,7 +45,7 @@ public class TrelloControllerTest {
         when(trelloFacade.fetchTrelloBoards()).thenReturn(trelloBoards);
 
         //When&Then
-        mockMvc.perform(get("/v1/trello/getTrelloBoards").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/trello/boards").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))//or isOK()
                 .andExpect(jsonPath("$",hasSize(0)));
     }
@@ -61,7 +61,7 @@ public class TrelloControllerTest {
 
         when(trelloFacade.fetchTrelloBoards()).thenReturn(trelloBoards);
         //When&Then
-        mockMvc.perform(get("/v1/trello/getTrelloBoards").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/trello/boards").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 //Trello board fields
                 .andExpect(jsonPath("$",hasSize(1)))

@@ -52,7 +52,7 @@ public class TaskControllerTest {
         when(taskMapper.mapTaskDtoList(anyList())).thenReturn(taskDtoList);
 
         // When & Then
-        mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -63,36 +63,21 @@ public class TaskControllerTest {
     @Test
     public void shouldGetTask() throws Exception {
         // Given
-        Task task = new Task(1l, "test title", "test content");
+        Task task = new Task(1L, "test title", "test content");
         TaskDto taskDto = taskMapperNotAMock.mapToTaskDto(task);
 
         when(service.getTask(anyLong())).thenReturn(Optional.ofNullable(task));
         when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
 
         // When & Then
-        mockMvc.perform(get("/v1/task/getTask").param("taskId","1").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks/1")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("test title")))
                 .andExpect(jsonPath("$.content", is("test content")));
     }
 
-    @Test
-    public void shouldGetOneTask ()throws Exception {
-        // Given
-        Task task = new Task(1l, "test title", "test content");
-        TaskDto taskDto = taskMapperNotAMock.mapToTaskDto(task);
-
-        when(service.getTask(anyLong())).thenReturn(Optional.ofNullable(task));
-        when(taskMapper.mapToTaskDto(any(Task.class))).thenReturn(taskDto);
-
-        // When & Then
-        mockMvc.perform(get("/v1/task/getTask").param("taskId", "1").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.title", is("test title")))
-                .andExpect(jsonPath("$.content", is("test content")));
-    }
 
     @Test
     public void shouldUpdateTask()throws Exception{
@@ -106,7 +91,7 @@ public class TaskControllerTest {
         String cont = gson.toJson(taskDto);
 
         // When &  Then
-        mockMvc.perform(put("/v1/task/updateTask")
+        mockMvc.perform(put("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(cont))
@@ -128,7 +113,7 @@ public class TaskControllerTest {
         String jsonContent = gson.toJson(taskDto);
 
         //When and Then
-        mockMvc.perform(post("/v1/task/createTask")
+        mockMvc.perform(post("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
